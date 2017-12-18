@@ -1,0 +1,59 @@
+100
+s 0 ahhh
+p 0 SOL 3 1
+w 1
+p 0 DO 4 1
+w 1
+p 0 DO 4 1
+w 1
+p 0 DO 4 1
+w 1
+p 0 RE 4 1
+w 1
+p 0 DO 4 1
+w 3
+p 0 DO 4 1
+w 0.5
+p 0 RE 4 1
+w 0.5
+p 0 MI 4 1
+w 1
+p 0 MI 4 1
+w 1
+p 0 MI 4 1
+w 1
+p 0 FA 4 1
+w 1
+p 0 MI 4 1
+w 3
+p 0 RE 4 1
+w 1
+p 0 DO 4 1
+w 1.5
+p 0 DO 4 1
+w 0.5
+p 0 DO 4 1
+w 0.5
+p 0 DO 4 1
+w 0.5
+p 0 SI 3 1
+w 0.5
+p 0 LA 3 1
+w 0.5
+p 0 SOL 3 1
+w 3
+p 0 SOL 3 1
+w 0.5
+p 0 SOL 3 1
+w 0.5
+p 0 DO 4 1
+w 2
+p 0 DO 4 1
+w 0.5
+p 0 DO 4 1
+w 0.5
+p 0 RE 4 1
+w 0.5
+p 0 RE 4 1
+w 0.5
+p 0 DO 4 1
