@@ -11,6 +11,7 @@ import ahhh.Note.Tone;
 import ahhh.SampleManager.Sample;
 import ahhh.util.FXDialogUtils;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
@@ -319,7 +320,7 @@ public class GUI {
 			boolean success = false;
 			if (db.hasFiles()) {
 				success = true;
-				playFile(db.getFiles().get(0));
+				Platform.runLater(() -> playFile(db.getFiles().get(0)));
 			}
 			event.setDropCompleted(success);
 			event.consume();
@@ -345,6 +346,9 @@ public class GUI {
 			FXDialogUtils.showMessageDialog(AlertType.ERROR, "Déjà un fichier en cours de lecture", null, "Un fichier est déjà en cours de lecture. Patientez un instant.");
 		}
 		try {
+			if (f.getName().toLowerCase().endsWith(".mid") || f.getName().toLowerCase().endsWith(".midi")) {
+				f = MIDIToAhhhConverter.convert(f, stage);
+			}
 			currentPlayingFile = new MusicFile(f, this);
 		} catch (Exception e) {
 			FXDialogUtils.showExceptionDialog(e.getClass().getName(), e.getLocalizedMessage(), e);
