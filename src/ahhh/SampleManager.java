@@ -35,9 +35,13 @@ public class SampleManager {
 	}
 	
 	public static class Sample {
+		private static int idInc = 0;
+		
 		final AudioClip audio;
 		final double initialFrequency;
 		final long duration;
+		
+		final int id = idInc++;
 		
 		public Sample(AudioClip a, double freq, long d) {
 			audio = a;

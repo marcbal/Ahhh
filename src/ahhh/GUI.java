@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
@@ -30,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class GUI {
@@ -40,6 +42,7 @@ public class GUI {
 	private Map<KeyCode, Note> keys = new HashMap<>();
 	
 	ProgressBar playProgress;
+	private Recorder recorder;
 	
 	private void addNote(Note s) {
 		notes.add(s);
@@ -252,7 +255,7 @@ public class GUI {
 			if (clickedNote != null) {
 				if (clickedNote != lastClicked) {
 					SampleManager.ahhh.play(clickedNote);
-					press(clickedNote, SampleManager.ahhh);
+					manualPress(clickedNote, SampleManager.ahhh);
 					lastClicked = clickedNote;
 				}
 				
@@ -274,7 +277,7 @@ public class GUI {
 			
 			if (st != null) {
 				SampleManager.ahhh.play(st);
-				press(st, SampleManager.ahhh);
+				manualPress(st, SampleManager.ahhh);
 			}
 		});
 		
@@ -290,7 +293,32 @@ public class GUI {
 		playProgress = new ProgressBar(0);
 		playProgress.setPrefWidth(2000);
 		
-		HBox bottomBox = new HBox(2, volumeLabel, volume, playProgress);
+		ToggleButton record = new ToggleButton("Enregistrer");
+		record.selectedProperty().addListener((obj, o, n) -> {
+			if (n) {
+				double bpm = 0;
+				do {
+					try {
+						bpm = Double.parseDouble(FXDialogUtils.showTextInputDialog("BPM pour l'enregistrement",
+								"Indiquer le BPM pour l'enregistrement (type double > 0)", "120"));
+					} catch(NumberFormatException e) {}
+				} while (bpm <= 0);
+				recorder = new Recorder(bpm);
+				recorder.addSample("ahhh", SampleManager.ahhh);
+			}
+			else {
+				FileChooser saveChooser = new FileChooser();
+				saveChooser.setInitialDirectory(new File("."));
+				File f = saveChooser.showSaveDialog(stage);
+				if (f != null)
+					recorder.save(f);
+				
+				recorder = null;
+			}
+		});
+		record.setMinWidth(100);
+		
+		HBox bottomBox = new HBox(2, volumeLabel, volume, record, playProgress);
 		
 		HBox.setHgrow(playProgress, Priority.SOMETIMES);
 		
@@ -361,6 +389,13 @@ public class GUI {
 		return (t != null && t > System.currentTimeMillis());
 	}
 	
+	private void manualPress(Note n, Sample s) {
+		press(n, s);
+		if (recorder != null) {
+			long t = System.currentTimeMillis();
+			recorder.addPlayedSample(t, n, s);
+		}
+	}
 	
 	public void press(Note n, Sample s) {
 		long d = (long) (s.duration / (n.frequency / s.initialFrequency));

@@ -22,7 +22,7 @@ public class MusicFile extends Thread {
 	
 	public final double bpm;
 	
-	public final List<PlayedSample> content = new ArrayList<>();
+	private final List<PlayedSample> content = new ArrayList<>();
 	
 	private long startTime = 0;
 	
@@ -117,7 +117,7 @@ public class MusicFile extends Thread {
 				try { Thread.sleep(ps.playTime - currentProgress()); }
 				catch (InterruptedException e) { playing = false; return; }
 			}
-			ps.play();
+			ps.play(gui);
 		}
 		playing = false;
 		guiUpdater.stop();
@@ -143,7 +143,7 @@ public class MusicFile extends Thread {
 	
 	
 	
-	public class PlayedSample {
+	public static class PlayedSample {
 		public final long playTime;
 		public final Note note;
 		public final Sample sample;
@@ -156,7 +156,7 @@ public class MusicFile extends Thread {
 			volume = v;
 		}
 		
-		public void play() {
+		private void play(GUI gui) {
 			sample.play(note, volume);
 			gui.press(note, sample);
 		}

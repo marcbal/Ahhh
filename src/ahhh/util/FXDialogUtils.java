@@ -25,10 +25,11 @@ import java.io.StringWriter;
 import java.util.Arrays;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
@@ -105,7 +106,13 @@ public class FXDialogUtils {
 	}
 	
 	
-	
+	public static String showTextInputDialog(String title, String header, String defaultValue) {
+		TextInputDialog dialog = new TextInputDialog(defaultValue);
+		dialog.setTitle(title);
+		dialog.setHeaderText(header);
+		
+		return dialog.showAndWait().orElseGet(() -> null);
+	}
 	
 	
 	
