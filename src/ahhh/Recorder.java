@@ -29,7 +29,13 @@ public class Recorder {
 		samples.put(s.id, name);
 	}
 	
+	public long getStartTime() {
+		return startTime;
+	}
 	
+	public int getContentCount() {
+		return content.size();
+	}
 	
 	public void addPlayedSample(long t, Note n, Sample s) {
 		if (content.size() == 0) {

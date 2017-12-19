@@ -135,7 +135,7 @@ public class MusicFile extends Thread {
 	
 	
 	private void updateGUITitle() {
-		gui.setTitle(file.getName()
+		gui.setTitle(" Lecture : " + file.getName()
 				+ " - " + TimeUtil.durationToString(currentProgress())
 				+ "/" + TimeUtil.durationToString(duration)
 				+ " - " + i + "/" + content.size());

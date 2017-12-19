@@ -10,6 +10,7 @@ import java.util.function.Function;
 import ahhh.Note.Tone;
 import ahhh.SampleManager.Sample;
 import ahhh.util.FXDialogUtils;
+import ahhh.util.TimeUtil;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.VPos;
@@ -222,6 +223,11 @@ public class GUI {
 					if (n.key != null)
 						gc.fillText(n.key.name(), bb.getMinX(), bb.getMaxY(), bb.getWidth());
 				}
+				
+				
+				if (currentPlayingFile == null || !currentPlayingFile.isPlaying()) {
+					setTitle(null);
+				}
 			}
 		};
 		
@@ -403,7 +409,13 @@ public class GUI {
 	}
 	
 	public void setTitle(String compT) {
-		stage.setTitle("Ahhh" + (compT == null ? "" : (" - " + compT)));
+		String recordText = "";
+		if (recorder != null && recorder.getStartTime() != 0) {
+			recordText = " - Enregistrement : " + TimeUtil.durationToString(System.currentTimeMillis() - recorder.getStartTime())
+				+ ", " + recorder.getContentCount();
+		}
+		
+		stage.setTitle("Ahhh" + recordText + (compT == null ? "" : (" - " + compT)));
 	}
 	
 }
